@@ -61,7 +61,7 @@ def generate_html(
 <head>
     <meta charset="UTF-8">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
         
         * {{ margin: 0; padding: 0; box-sizing: border-box; }}
         
@@ -69,7 +69,7 @@ def generate_html(
             width: {width}px;
             height: {height}px;
             background: {bg_color};
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
             display: flex;
             overflow: hidden;
         }}
@@ -80,15 +80,15 @@ def generate_html(
             height: 100%;
             align-items: center;
             justify-content: space-between;
-            padding: 40px 60px;
+            padding: 0 40px;
         }}
         
         .brand-side {{
-            flex: 0 0 35%;
+            flex: 0 0 25%;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding-right: 40px;
+            padding-right: 20px;
         }}
         
         .brand-name {{
@@ -109,24 +109,26 @@ def generate_html(
         }}
         
         .mockup-side {{
-            flex: 0 0 60%;
+            flex: 0 0 70%;
             display: flex;
             align-items: center;
             justify-content: center;
-            perspective: 1000px;
+            height: 100%;
         }}
         
         .mockup-container {{
-            transform: rotateY(-{tilt}deg) rotateX(2deg);
-            transform-style: preserve-3d;
+            transform: rotate({tilt}deg);
+            display: flex;
+            align-items: center;
             {shadow_css}
         }}
         
         .mockup-image {{
-            max-width: 100%;
-            max-height: {height - 80}px;
+            max-width: none;
+            height: {int(height * 1.15)}px;
+            object-fit: contain;
             border-radius: 12px;
-            border: 1px solid rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.1);
         }}
     </style>
 </head>
@@ -259,14 +261,14 @@ Examples:
     parser.add_argument('--text-color', default='#111111', help='Text color')
     parser.add_argument('--gradient', help='Gradient as "from,to" (overrides bg/text colors)')
     parser.add_argument('--accent', default='#00D4AA', help='Accent color')
-    parser.add_argument('--tilt', type=float, default=4, help='Tilt degrees (default: 4)')
+    parser.add_argument('--tilt', type=float, default=3, help='2D rotation degrees, positive=right (default: 3)')
     parser.add_argument('--no-shadow', action='store_true', help='Disable shadow')
     
-    # Optional - dimensions
-    parser.add_argument('--width', type=int, default=1200, help='Output width')
-    parser.add_argument('--height', type=int, default=675, help='Output height')
-    parser.add_argument('--viewport-width', type=int, default=1280, help='URL viewport width')
-    parser.add_argument('--viewport-height', type=int, default=800, help='URL viewport height')
+    # Optional - dimensions (defaults optimized for crispy edge-to-edge images)
+    parser.add_argument('--width', type=int, default=1920, help='Output width (default: 1920)')
+    parser.add_argument('--height', type=int, default=1080, help='Output height (default: 1080)')
+    parser.add_argument('--viewport-width', type=int, default=1800, help='URL viewport width for crispy screenshots (default: 1800)')
+    parser.add_argument('--viewport-height', type=int, default=1100, help='URL viewport height (default: 1100)')
     parser.add_argument('--wait', type=int, default=1000, help='Wait ms after page load')
     
     args = parser.parse_args()
