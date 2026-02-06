@@ -1,0 +1,11 @@
+{
+  "name": "product-showcase-image",
+  "description": "Generate professional product showcase images for Twitter launches, Product Hunt, and social media. Creates marketing visuals with brand name + tilted UI mockup.",
+  "version": "1.0.0",
+  "author": {
+    "name": "wrkr",
+    "url": "https://wrkr.sh"
+  },
+  "repository": "https://github.com/wrkrsh/product-showcase-image",
+  "license": "MIT"
+}

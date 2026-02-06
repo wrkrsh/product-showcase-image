@@ -1,0 +1,31 @@
+# Product Showcase Image Generator
+
+When the user asks for a product showcase image, launch image, Twitter thread image, or marketing visual:
+
+1. Use the `generate_image.py` script in this directory
+2. Requires: `pip install playwright && playwright install chromium`
+
+## Usage
+
+From URL (auto-screenshot):
+```bash
+python3 generate_image.py --url https://app.example.com --brand "AppName" -o output.png
+```
+
+From screenshot:
+```bash
+python3 generate_image.py --screenshot app.png --brand "AppName" -o output.png
+```
+
+With gradient background:
+```bash
+python3 generate_image.py --url URL --brand "Name" --gradient "#1a1a2e,#16213e" -o output.png
+```
+
+## Options
+- `--url` / `--screenshot`: Input (one required)
+- `--brand`: Brand name (required)
+- `--tagline`: Optional tagline
+- `--gradient`: Gradient as "from,to"
+- `--tilt`: Rotation degrees (default 4)
+- `-o`: Output path (required)
