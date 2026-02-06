@@ -1,69 +1,66 @@
 # Product Showcase Image Generator
 
-An [OpenClaw](https://openclaw.ai) skill for generating professional product showcase images from any screenshot.
+Generate professional product showcase images for Twitter launches, Product Hunt, and social media.
 
-Creates marketing visuals with your brand name on the left and a tilted UI mockup on the right - perfect for Twitter launch threads, Product Hunt, and social media announcements.
+![Example](https://wrkr.sh/assets/images/thread-infographic.png)
 
-## Features
-
-- Works with **any screenshot** - dashboards, landing pages, mobile apps
-- Professional 3D tilt and shadow effects
-- Light or gradient backgrounds
-- Twitter-optimized dimensions (1200x675)
-- 2x resolution for crisp display
-- Customizable brand name, tagline, colors, tilt angle
-
-## Installation
+## Install
 
 ```bash
-# Clone to your OpenClaw skills directory
-git clone https://github.com/wrkrsh/product-showcase-image.git ~/.openclaw/workspace/skills/product-showcase-image
+curl -fsSL https://raw.githubusercontent.com/wrkrsh/product-showcase-image/main/install.sh | bash
+```
 
-# Install dependencies
-pip install playwright
-playwright install chromium
+Or with pip:
+
+```bash
+pip install playwright && playwright install chromium
+curl -O https://raw.githubusercontent.com/wrkrsh/product-showcase-image/main/scripts/generate_image.py
 ```
 
 ## Usage
 
+### From URL (easiest)
+
 ```bash
-# Basic
-python3 scripts/generate_image.py \
-  --screenshot your-app.png \
-  --brand "YourApp" \
-  --output launch.png
-
-# With tagline
-python3 scripts/generate_image.py \
-  --screenshot your-app.png \
-  --brand "YourApp" \
-  --tagline "Ship faster with AI" \
-  --output launch.png
-
-# Gradient background (for dark screenshots)
-python3 scripts/generate_image.py \
-  --screenshot your-app.png \
-  --brand "YourApp" \
-  --gradient "#1a1a2e,#16213e" \
-  --output launch.png
+python3 generate_image.py --url https://app.yoursite.com --brand "YourApp" -o launch.png
 ```
 
-## Parameters
+### From screenshot
 
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `--screenshot` | required | Your app screenshot (PNG/JPG) |
-| `--brand` | required | Brand name (large, left side) |
-| `--tagline` | "" | Tagline below brand |
-| `--output` | required | Output file path |
-| `--bg-color` | #f5f5f5 | Background color |
-| `--gradient` | - | Gradient as "from,to" |
-| `--accent` | #00D4AA | Accent color |
-| `--tilt` | 4 | Rotation degrees |
-| `--no-shadow` | false | Disable shadow |
+```bash
+python3 generate_image.py --screenshot dashboard.png --brand "YourApp" -o launch.png
+```
 
-See [SKILL.md](SKILL.md) for full documentation.
+### With tagline + gradient
+
+```bash
+python3 generate_image.py \
+  --url https://app.yoursite.com \
+  --brand "YourApp" \
+  --tagline "Ship faster with AI" \
+  --gradient "#1a1a2e,#16213e" \
+  -o launch.png
+```
+
+## Options
+
+| Option | Description |
+|--------|-------------|
+| `--url` | URL to screenshot |
+| `--screenshot` | Or: path to image file |
+| `--brand` | Brand name (required) |
+| `--tagline` | Tagline below brand |
+| `--gradient` | Gradient bg as "from,to" |
+| `--bg-color` | Solid bg color (#f5f5f5) |
+| `--tilt` | Rotation degrees (4) |
+| `--no-shadow` | Disable drop shadow |
+
+## Output
+
+- 1200x675 (Twitter/OG optimal)
+- 2x resolution for crisp display
+- PNG format
 
 ## License
 
-MIT
+MIT - [wrkr](https://wrkr.sh)
