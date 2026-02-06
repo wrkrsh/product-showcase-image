@@ -114,9 +114,10 @@ def generate_html(
         .mockup-side {{
             flex: 0 0 70%;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             height: 100%;
+            padding-top: 20px;
         }}
         
         .mockup-container {{
@@ -128,7 +129,7 @@ def generate_html(
         
         .mockup-image {{
             max-width: none;
-            height: {int(height * 1.15)}px;
+            height: {int(height * 1.05)}px;
             object-fit: contain;
             border-radius: 12px;
             border: 1px solid rgba(255,255,255,0.1);
@@ -185,6 +186,12 @@ async def main_async(args):
             wait_ms=args.wait
         )
         screenshot_b64 = base64.b64encode(screenshot_bytes).decode('utf-8')
+        
+        # Save raw screenshot if requested
+        if args.save_screenshot:
+            with open(args.save_screenshot, 'wb') as f:
+                f.write(screenshot_bytes)
+            print(f"Saved screenshot: {args.save_screenshot}")
     elif args.screenshot:
         screenshot_path = Path(args.screenshot)
         if not screenshot_path.exists():
@@ -273,6 +280,7 @@ Examples:
     parser.add_argument('--viewport-width', type=int, default=1800, help='URL viewport width for crispy screenshots (default: 1800)')
     parser.add_argument('--viewport-height', type=int, default=1100, help='URL viewport height (default: 1100)')
     parser.add_argument('--wait', type=int, default=1000, help='Wait ms after page load')
+    parser.add_argument('--save-screenshot', help='Also save raw screenshot to this path')
     
     args = parser.parse_args()
     return asyncio.run(main_async(args))
