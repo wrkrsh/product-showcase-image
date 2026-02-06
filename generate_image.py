@@ -17,13 +17,16 @@ import asyncio
 from pathlib import Path
 
 
-async def screenshot_url(url: str, width: int = 1280, height: int = 800, wait_ms: int = 1000) -> bytes:
-    """Take a screenshot of a URL using Playwright."""
+async def screenshot_url(url: str, width: int = 1280, height: int = 800, wait_ms: int = 1000, scale: float = 2.0) -> bytes:
+    """Take a screenshot of a URL using Playwright with high DPI support."""
     from playwright.async_api import async_playwright
     
     async with async_playwright() as p:
         browser = await p.chromium.launch()
-        page = await browser.new_page(viewport={"width": width, "height": height})
+        page = await browser.new_page(
+            viewport={"width": width, "height": height},
+            device_scale_factor=scale  # 2x for retina-quality screenshots
+        )
         
         await page.goto(url, wait_until='networkidle')
         if wait_ms:
