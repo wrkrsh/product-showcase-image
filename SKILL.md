@@ -1,101 +1,83 @@
 ---
 name: product-showcase-image
-description: Create professional product showcase images for Twitter/social media launches. Generates marketing visuals with brand name on left and tilted UI mockup on right. Use for launch threads, product announcements, social media graphics. Triggers: "create launch image", "product showcase", "twitter thread image", "marketing visual", "app screenshot mockup".
+description: Create professional product showcase images from any screenshot. Generates marketing visuals with brand name on left and tilted UI mockup on right. Works with any app screenshot. Triggers: "create launch image", "product showcase", "twitter thread image", "marketing visual", "app mockup".
 ---
 
 # Product Showcase Image Generator
 
-Create professional marketing images with your product branding and a tilted UI mockup.
+Create professional marketing images from any screenshot - brand on left, tilted mockup on right.
 
 ## Quick Start
 
 ```bash
-cd /path/to/skill
 python3 scripts/generate_image.py \
-  --brand "yourapp" \
-  --title "Marketing" \
-  --output /path/to/output.png
+  --screenshot /path/to/your-app.png \
+  --brand "YourApp" \
+  --tagline "Ship faster with AI" \
+  --output launch.png
 ```
 
 ## Parameters
 
 | Parameter | Required | Default | Description |
 |-----------|----------|---------|-------------|
-| `--brand` | Yes | - | Brand name (bottom left) |
-| `--title` | No | "Dashboard" | Workspace/board title |
+| `--screenshot` | Yes | - | Path to your app screenshot (PNG/JPG) |
+| `--brand` | Yes | - | Brand name (large text on left) |
+| `--tagline` | No | "" | Tagline below brand name |
 | `--output` | Yes | - | Output file path |
-| `--columns` | No | 5 | Number of kanban columns |
-| `--tasks` | No | auto | JSON file with task data |
 | `--bg-color` | No | #f5f5f5 | Background color |
-| `--accent` | No | #00D4AA | Accent color (buttons, avatars) |
-| `--tilt` | No | 4 | Board rotation degrees |
-| `--width` | No | 1200 | Image width |
+| `--gradient` | No | - | Gradient as "from,to" (overrides bg-color) |
+| `--accent` | No | #00D4AA | Accent color |
+| `--tilt` | No | 4 | Mockup rotation in degrees |
+| `--no-shadow` | No | false | Disable drop shadow |
+| `--width` | No | 1200 | Image width (Twitter optimal) |
 | `--height` | No | 675 | Image height (Twitter optimal) |
-
-## Task Data Format
-
-Create a JSON file with custom tasks:
-
-```json
-{
-  "columns": ["Backlog", "Todo", "In Progress", "Review", "Done"],
-  "tasks": [
-    {
-      "column": "Todo",
-      "title": "Write blog post",
-      "desc": "About AI trends...",
-      "agent": "C",
-      "agent_color": "blue",
-      "priority": "high",
-      "comments": 2,
-      "status": null
-    },
-    {
-      "column": "In Progress",
-      "title": "Research competitors",
-      "desc": "Top 5 analysis...",
-      "agent": "R",
-      "agent_color": "green",
-      "priority": "high",
-      "comments": 1,
-      "status": "Working"
-    }
-  ]
-}
-```
-
-### Status Values
-- `null` - No status badge (backlog/todo)
-- `"Working"` - Yellow/orange badge
-- `"In Review"` - Orange badge
-- `"Complete"` - Green badge
-
-### Agent Colors
-- `green` (#00D4AA)
-- `blue` (#3b82f6)
-- `purple` (#8b5cf6)
-- `orange` (#f59e0b)
-
-### Priority Values
-- `high` - Red badge
-- `medium` - Yellow badge
-- `low` - Green badge
 
 ## Examples
 
-### Basic usage
+### Basic - Light background
 ```bash
-python3 scripts/generate_image.py --brand "myapp" --output launch.png
+python3 scripts/generate_image.py \
+  --screenshot dashboard.png \
+  --brand "MyApp" \
+  --output launch.png
 ```
 
-### Custom accent color
+### With tagline
 ```bash
-python3 scripts/generate_image.py --brand "acme" --accent "#6366f1" --output launch.png
+python3 scripts/generate_image.py \
+  --screenshot dashboard.png \
+  --brand "MyApp" \
+  --tagline "The future of productivity" \
+  --output launch.png
 ```
 
-### With custom tasks
+### Gradient background (great for dark screenshots)
 ```bash
-python3 scripts/generate_image.py --brand "wrkr" --tasks tasks.json --output launch.png
+python3 scripts/generate_image.py \
+  --screenshot dashboard.png \
+  --brand "MyApp" \
+  --gradient "#1a1a2e,#16213e" \
+  --output launch.png
+```
+
+### Custom accent and tilt
+```bash
+python3 scripts/generate_image.py \
+  --screenshot dashboard.png \
+  --brand "MyApp" \
+  --accent "#6366f1" \
+  --tilt 8 \
+  --output launch.png
+```
+
+### No shadow (flat design)
+```bash
+python3 scripts/generate_image.py \
+  --screenshot dashboard.png \
+  --brand "MyApp" \
+  --no-shadow \
+  --output launch.png
 ```
 
 ## Requirements
@@ -107,4 +89,11 @@ python3 scripts/generate_image.py --brand "wrkr" --tasks tasks.json --output lau
 
 - PNG image at 2x resolution for crisp display
 - Twitter-optimized 1200x675 default dimensions
-- Professional shadow and tilt effect
+- Professional shadow and 3D tilt effect
+
+## Tips
+
+1. **Screenshot size**: Use high-resolution screenshots (at least 1200px wide)
+2. **Dark mode apps**: Use `--gradient` for better contrast
+3. **Tilt**: Lower values (2-4) look subtle, higher (6-10) more dramatic
+4. **Tagline**: Keep it short - 3-6 words works best
